@@ -1,0 +1,14 @@
+{
+  "recommendations": ["Vue.volar", "Vue.vscode-typescript-vue-plugin"],
+  "vetur.validation.template": false,
+  "vetur.format.defaultFormatter.html": "none",
+  // Set the default
+  "editor.formatOnSave": false,
+  // Enable per-language
+  "[javascript]": {
+      "editor.formatOnSave": true
+  },
+  "[vue]": {
+      "editor.formatOnSave": true
+  }
+}
