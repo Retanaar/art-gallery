@@ -8,7 +8,9 @@
       </div>
     </div>
     <div class="buttonContainer">
-      <AppButton @click="">Add to favorites</AppButton>
+      <AppButton @click="handleFavorites(item)">{{
+        inFavorites ? 'Remove from favorites' : 'Add to favorites'
+      }}</AppButton>
       <AppButton @click="router.push('/' + item?.objectNumber)">View Details</AppButton>
     </div>
   </div>
@@ -17,10 +19,12 @@
 import { useRouter } from 'vue-router'
 import { ArtObjectsItem } from '../types'
 import AppButton from './AppButton.vue'
+import useFavorites from '../composable/useFavorites.ts'
 
-defineProps<{ item?: ArtObjectsItem }>()
+const { item } = defineProps<{ item?: ArtObjectsItem }>()
 
 const router = useRouter()
+const { inFavorites, handleFavorites } = useFavorites({ id: item?.objectNumber || '' })
 </script>
 <style scoped>
 .popupWrapper {

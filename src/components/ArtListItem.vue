@@ -29,6 +29,7 @@ const title = computed(() => props.item.longTitle)
 .wrapper:hover {
   > div {
     top: 25%;
+    opacity: 0.7;
   }
 }
 .hint {
@@ -39,7 +40,7 @@ const title = computed(() => props.item.longTitle)
   top: 100%;
   left: 0;
   background-color: white;
-  opacity: 0.7;
+  opacity: 0;
   text-align: center;
   font-weight: 600;
   font-size: 16px;

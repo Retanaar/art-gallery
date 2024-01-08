@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <app-loader v-if="loading" />
     <AppSearch :search-handler="updateSearch" />
     <div class="scroll-area" ref="scrollArea" :style="scrollAreaStyles">
       <div class="items-grid" :style="styles">
@@ -11,7 +12,7 @@
         />
       </div>
     </div>
-    <app-button @click="loadMore">Load more</app-button>
+    <app-button @click="loadMore" :disabled="loading">Load more</app-button>
     <AppModal :is-open="isOpen" @modal-close="isOpen = false">
       <ArtItemPopup :item="selectedArt" />
     </AppModal>
@@ -25,8 +26,9 @@ import AppButton from '../components/AppButton.vue'
 import AppSearch from '../components/AppSearch.vue'
 import ArtListItem from '../components/ArtListItem.vue'
 import useArtObjects from '../composable/useArtList'
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, onBeforeUnmount } from 'vue'
 import { ArtObjectsItem } from 'types'
+import AppLoader from '../components/AppLoader.vue'
 
 const search = ref('')
 const isOpen = ref(false)
@@ -47,7 +49,7 @@ const scrollAreaStyles = reactive({
   maxHeight: 'none',
 })
 
-const { artObjects, loadNextItems } = useArtObjects()
+const { artObjects, loadNextItems, loading } = useArtObjects()
 
 function updateSearch(q: string) {
   search.value = q
@@ -65,7 +67,15 @@ onMounted(async () => {
   const scrollHeight = scrollArea.value?.clientHeight || 0
   scrollAreaStyles.height = scrollHeight + 'px'
   scrollAreaStyles.maxHeight = scrollHeight + 'px'
+  window.addEventListener('resize', reload)
 })
+
+onBeforeUnmount(() => window.removeEventListener('resize', reload))
+
+function reload() {
+  window.removeEventListener('resize', reload)
+  location.reload()
+}
 </script>
 
 <style scoped>

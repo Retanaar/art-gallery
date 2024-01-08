@@ -1,10 +1,11 @@
 <template>
-  <button @click="onClick"><slot>Button</slot></button>
+  <button @click="$emit('click')" :disabled="disabled"><slot>Button</slot></button>
 </template>
 <script setup lang="ts">
 import { defineProps } from 'vue'
+const emit = defineEmits<{ (e: 'click'): void }>()
 defineProps<{
-  onClick: (payload: MouseEvent) => void
+  disabled?: boolean
 }>()
 </script>
 <style scoped>
@@ -23,5 +24,10 @@ button {
     padding: 15px 24px;
     width: 100%;
   }
+}
+button:disabled {
+  background-color: #cccccc;
+
+  cursor: default;
 }
 </style>

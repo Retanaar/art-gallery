@@ -14,6 +14,13 @@ export interface ArtObjectDetails {
   description: string
   label: ArtObjectLabel
   colors: ArtObjectColor[]
+  objectNumber: string
+}
+
+export interface ArtObjectsFavorite {
+  id: string
+  title: string
+  webImage: ArtObjectsImage
 }
 
 export interface ArtObjectDetailsResponse {

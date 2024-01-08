@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <app-loader v-if="loading" />
+  <div class="container" v-else>
     <div><app-button @click="router.push('/')">Back</app-button></div>
     <div class="content">
       <div class="image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
@@ -15,7 +16,9 @@
       </div>
     </div>
     <div class="button-wrapper">
-      <app-button @click="">Add to favorites</app-button>
+      <app-button @click="handleFavorites(details)">{{
+        inFavorites ? 'Remove from favorites' : 'Add to favorites'
+      }}</app-button>
     </div>
   </div>
 </template>
@@ -26,10 +29,13 @@ import { artDetails } from '../api'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppButton from '../components/AppButton.vue'
+import AppLoader from '../components/AppLoader.vue'
+import useFavorites from '../composable/useFavorites'
 
 const route = useRoute()
 const router = useRouter()
 const details = ref<ArtObjectDetails>()
+const loading = ref(false)
 
 const id = computed(() => route.params.id)
 
@@ -37,9 +43,14 @@ const description = computed(() => details.value?.label.description || details.v
 const title = computed(() => details.value?.label.title || details.value?.title)
 const imageUrl = computed(() => details.value?.webImage?.url || '')
 const colors = computed(() => details.value?.colors || [])
+const { inFavorites, handleFavorites } = useFavorites({ id: id.value.toString() })
 onMounted(() => {
+  loading.value = true
   artDetails(id.value as string)
-    .then((data) => (details.value = data.artObject))
+    .then((data) => {
+      details.value = data.artObject
+      loading.value = false
+    })
     .catch((err) => console.error(err))
 })
 </script>
