@@ -1,6 +1,6 @@
 <template>
   <div class="searchWrapper">
-    <input type="text" name="search" placeholder="Search..." v-model="search" autocomplete="off" />
+    <input type="text" placeholder="Search..." v-model="search" autocomplete="off" />
     <div><app-button @click="searchHandler(search)">SUBMIT</app-button></div>
   </div>
 </template>
