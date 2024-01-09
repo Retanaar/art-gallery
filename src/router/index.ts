@@ -1,6 +1,8 @@
+import type { RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Details from '../pages/Details.vue'
 import Home from '../pages/Home.vue'
-import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
+import Favorites from '../pages/Favorites.vue'
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -12,6 +14,11 @@ export const routes: RouteRecordRaw[] = [
     name: 'Details',
     path: '/:id',
     component: Details,
+  },
+  {
+    name: 'Favorites',
+    path: '/favorites',
+    component: Favorites,
   },
 ]
 

@@ -1,19 +1,28 @@
-<template>
-  <div class="header-wrapper">
-    <div class="logo">Rijks Museum</div>
-    <div class="favorites">Favorites {{ length }}</div>
-  </div>
-</template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useFavoritesStore } from '../store/useFavoritesStore.ts'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useFavoritesStore } from '../store/useFavoritesStore.ts'
+
+const router = useRouter()
 const { favorites } = storeToRefs(useFavoritesStore())
 const { initFavorites } = useFavoritesStore()
 initFavorites()
 
 const length = computed(() => favorites.value.length)
 </script>
+
+<template>
+  <div class="header-wrapper">
+    <div class="logo" @click="router.push('/')">
+      Rijks Museum
+    </div>
+    <div class="favorites" @click="router.push('/favorites')">
+      Favorites {{ length }}
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .header-wrapper {
   display: flex;
@@ -27,6 +36,7 @@ const length = computed(() => favorites.value.length)
   font-family: Saira Stencil One;
   padding: 16px 20px;
   font-size: 22px;
+  cursor: pointer;
   @media (max-width: 1024px) {
     font-size: 32px;
   }

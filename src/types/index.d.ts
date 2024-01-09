@@ -1,27 +1,26 @@
 export interface ArtObjectsParams {
-  p: number //current page
-  ps: number //elements per page
-  q: string //search string
-  imgonly: boolean //items with image only
-  culture: string //lang nl / en
+  p: number // current page
+  ps: number // elements per page
+  q: string // search string
+  imgonly: boolean // items with image only
+  culture: string // lang nl / en
 }
 
-export interface ArtObjectDetails {
+export interface ArtObjectsBase {
   id: string
   title: string
+  objectNumber: string
   webImage: ArtObjectsImage
+}
+
+export interface ArtObjectDetails extends ArtObjectsBase {
   titles: string
   description: string
   label: ArtObjectLabel
   colors: ArtObjectColor[]
-  objectNumber: string
 }
 
-export interface ArtObjectsFavorite {
-  id: string
-  title: string
-  webImage: ArtObjectsImage
-}
+export interface ArtObjectsFavorite extends ArtObjectsBase {}
 
 export interface ArtObjectDetailsResponse {
   artObject: ArtObjectDetails
@@ -43,12 +42,8 @@ export interface ArtObjectsResponse {
   artObjects: ArtObjectsItem[]
 }
 
-export interface ArtObjectsItem {
-  id: string
-  objectNumber: string
-  title: string
+export interface ArtObjectsItem extends ArtObjectsBase {
   longTitle: string
-  webImage: ArtObjectsImage
 }
 
 export interface ArtObjectsImage {

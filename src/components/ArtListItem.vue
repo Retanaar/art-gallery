@@ -1,22 +1,25 @@
+<script setup lang="ts">
+import type { ArtObjectsBase, ArtObjectsItem } from '../types'
+
+const { item } = defineProps<{ item: ArtObjectsBase }>()
+
+defineEmits<{ (e: 'selectArt', item: ArtObjectsItem): void }>()
+
+const imageUrl = item.webImage.url
+const title = item.title
+</script>
+
 <template>
-  <div :style="{ backgroundImage: 'url(' + imageUrl + ')' }" class="wrapper" @click="$emit('select-art', props.item)">
+  <div
+    :style="{ backgroundImage: `url(${imageUrl})` }"
+    class="wrapper"
+    @click="$emit('selectArt', item as ArtObjectsItem)"
+  >
     <div class="hint">
       <span>{{ title }}</span>
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ArtObjectsItem } from '../types'
-import { computed } from 'vue'
-
-const emits = defineEmits(['select-art'])
-
-const props = defineProps<{ item: ArtObjectsItem }>()
-
-const imageUrl = computed(() => props.item.webImage.url)
-const title = computed(() => props.item.longTitle)
-</script>
 
 <style scoped>
 .wrapper {

@@ -1,33 +1,8 @@
-<template>
-  <app-loader v-if="loading" />
-  <div class="container" v-else>
-    <div><app-button @click="router.push('/')">Back</app-button></div>
-    <div class="content">
-      <div class="image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
-      <div class="info">
-        <div class="h3">{{ title }}</div>
-        <div class="h5">{{ description }}</div>
-        <div class="h5">Colors:</div>
-        <div class="tags-wrapper">
-          <div class="tag" v-for="(color, index) in colors" :key="index" :style="{ backgroundColor: color.hex }">
-            {{ color.hex }} ({{ color.percentage }}%)
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="button-wrapper">
-      <app-button @click="handleFavorites(details)">{{
-        inFavorites ? 'Remove from favorites' : 'Add to favorites'
-      }}</app-button>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ArtObjectDetails } from '../types'
-import { artDetails } from '../api'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import type { ArtObjectDetails } from '../types'
+import { artDetails } from '../api'
 import AppButton from '../components/AppButton.vue'
 import AppLoader from '../components/AppLoader.vue'
 import useFavorites from '../composable/useFavorites'
@@ -44,6 +19,8 @@ const title = computed(() => details.value?.label.title || details.value?.title)
 const imageUrl = computed(() => details.value?.webImage?.url || '')
 const colors = computed(() => details.value?.colors || [])
 const { inFavorites, handleFavorites } = useFavorites({ id: id.value.toString() })
+
+// Fetch art details on component mount
 onMounted(() => {
   loading.value = true
   artDetails(id.value as string)
@@ -51,9 +28,54 @@ onMounted(() => {
       details.value = data.artObject
       loading.value = false
     })
-    .catch((err) => console.error(err))
+    .catch(err => console.error(err))
 })
 </script>
+
+<template>
+  <!-- Loader displayed when content is loading -->
+  <AppLoader v-if="loading" />
+
+  <!-- Content displayed when not loading -->
+  <div v-else class="container">
+    <!-- Back button -->
+    <div>
+      <AppButton @click="router.push('/')">
+        Back
+      </AppButton>
+    </div>
+
+    <!-- Art details -->
+    <div class="content">
+      <div class="image" :style="{ backgroundImage: `url(${imageUrl})` }" />
+      <div class="info">
+        <div class="h3">
+          {{ title }}
+        </div>
+        <div class="h5">
+          {{ description }}
+        </div>
+        <div class="h5">
+          Colors:
+        </div>
+        <div class="tags-wrapper">
+          <!-- Display colors with percentage -->
+          <div v-for="(color, index) in colors" :key="index" class="tag" :style="{ backgroundColor: color.hex }">
+            {{ color.hex }} ({{ color.percentage }}%)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Remove from favorites button -->
+    <div class="button-wrapper">
+      <AppButton @click="handleFavorites(details)">
+        <!-- Dynamic button text based on inFavorites status -->
+        {{ inFavorites ? 'Remove from favorites' : 'Add to favorites' }}
+      </AppButton>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .container {
