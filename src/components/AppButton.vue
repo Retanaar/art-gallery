@@ -1,13 +1,18 @@
-<template>
-  <button @click="$emit('click')" :disabled="disabled"><slot>Button</slot></button>
-</template>
 <script setup lang="ts">
 import { defineProps } from 'vue'
-defineEmits<{ (e: 'click'): void }>()
+
 defineProps<{
   disabled?: boolean
 }>()
+defineEmits<{ (e: 'click'): void }>()
 </script>
+
+<template>
+  <button :disabled="disabled" @click="$emit('click')">
+    <slot>Button</slot>
+  </button>
+</template>
+
 <style scoped>
 button {
   background-color: #4b39ef;

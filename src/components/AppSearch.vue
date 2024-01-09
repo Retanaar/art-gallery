@@ -1,17 +1,22 @@
-<template>
-  <div class="searchWrapper">
-    <input type="text" placeholder="Search..." v-model="search" autocomplete="off" />
-    <div><app-button @click="searchHandler(search)">SUBMIT</app-button></div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import AppButton from './AppButton.vue'
-const search = ref('')
 
 defineProps<{ searchHandler: (q: string) => void }>()
+
+const search = ref('')
 </script>
+
+<template>
+  <div class="searchWrapper">
+    <input v-model="search" type="text" placeholder="Search..." autocomplete="off">
+    <div>
+      <AppButton @click="searchHandler(search)">
+        SUBMIT
+      </AppButton>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .searchWrapper {

@@ -1,31 +1,37 @@
-<template>
-  <div class="popupWrapper">
-    <div class="mainContainer">
-      <div class="image" :style="{ backgroundImage: 'url(' + item?.webImage.url + ')' }"></div>
-      <div class="description">
-        <h2>{{ item?.title }}</h2>
-        <h5>{{ item?.longTitle }}</h5>
-      </div>
-    </div>
-    <div class="buttonContainer">
-      <AppButton @click="handleFavorites(item)">{{
-        inFavorites ? 'Remove from favorites' : 'Add to favorites'
-      }}</AppButton>
-      <AppButton @click="router.push('/' + item?.objectNumber)">View Details</AppButton>
-    </div>
-  </div>
-</template>
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ArtObjectsItem } from '../types'
-import AppButton from './AppButton.vue'
+import type { ArtObjectsItem } from '../types'
 import useFavorites from '../composable/useFavorites.ts'
+import AppButton from './AppButton.vue'
 
 const { item } = defineProps<{ item?: ArtObjectsItem }>()
 
 const router = useRouter()
 const { inFavorites, handleFavorites } = useFavorites({ id: item?.objectNumber || '' })
 </script>
+
+<template>
+  <div class="popupWrapper">
+    <div class="mainContainer">
+      <div class="image" :style="{ backgroundImage: `url(${item?.webImage.url})` }" />
+      <div class="description">
+        <h2>{{ item?.title }}</h2>
+        <h5>{{ item?.longTitle }}</h5>
+      </div>
+    </div>
+    <div class="buttonContainer">
+      <AppButton @click="handleFavorites(item)">
+        {{
+          inFavorites ? 'Remove from favorites' : 'Add to favorites'
+        }}
+      </AppButton>
+      <AppButton @click="router.push(`/${item?.objectNumber}`)">
+        View Details
+      </AppButton>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .popupWrapper {
   max-width: 1050px;

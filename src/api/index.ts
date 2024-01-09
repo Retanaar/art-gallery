@@ -1,8 +1,8 @@
 import request from '../utils/request'
-import { ArtObjectDetailsResponse, ArtObjectsParams, ArtObjectsResponse } from '../types'
+import type { ArtObjectDetailsResponse, ArtObjectsParams, ArtObjectsResponse } from '../types'
 
-export const artList = (params: ArtObjectsParams): Promise<ArtObjectsResponse> =>
-  request({
+export function artList(params: ArtObjectsParams): Promise<ArtObjectsResponse> {
+  return request({
     url: '/',
     params: {
       ...params,
@@ -10,11 +10,13 @@ export const artList = (params: ArtObjectsParams): Promise<ArtObjectsResponse> =
       objecttype: 1,
     },
   })
+}
 
-export const artDetails = (id: string): Promise<ArtObjectDetailsResponse> =>
-  request({
-    url: '/' + id,
+export function artDetails(id: string): Promise<ArtObjectDetailsResponse> {
+  return request({
+    url: `/${id}`,
     params: {
       key: import.meta.env.VITE_RIJKS_API_KEY,
     },
   })
+}
