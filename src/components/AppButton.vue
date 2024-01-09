@@ -3,7 +3,7 @@
 </template>
 <script setup lang="ts">
 import { defineProps } from 'vue'
-const emit = defineEmits<{ (e: 'click'): void }>()
+defineEmits<{ (e: 'click'): void }>()
 defineProps<{
   disabled?: boolean
 }>()
