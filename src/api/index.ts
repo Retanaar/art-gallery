@@ -7,6 +7,7 @@ export const artList = (params: ArtObjectsParams): Promise<ArtObjectsResponse> =
     params: {
       ...params,
       key: import.meta.env.VITE_RIJKS_API_KEY,
+      objecttype: 1,
     },
   })
 
