@@ -16,7 +16,11 @@ const { favorites: artObjects } = useFavorites({ id: '' })
         Main Page
       </AppButton>
     </div>
-    <div class="items-grid">
+    <!-- Empty result -->
+    <div v-if="!artObjects?.length" class="empty-list">
+      No items in favorites
+    </div>
+    <div v-else class="items-grid">
       <ArtListItem v-for="artItem in artObjects" :key="artItem.objectNumber" :item="artItem" />
     </div>
   </div>
@@ -51,5 +55,12 @@ const { favorites: artObjects } = useFavorites({ id: '' })
     grid-template-columns: repeat(2, minmax(100px, 1fr));
     grid-template-rows: repeat(6, 1fr);
   }
+}
+.empty-list {
+  width: 100%;
+  background-color: #efefef;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 16px;
 }
 </style>

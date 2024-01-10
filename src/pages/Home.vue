@@ -63,6 +63,11 @@ function reload() {
     <!-- Search component to handle search queries -->
     <AppSearch :search-handler="updateSearch" />
 
+    <!-- Empty result -->
+    <div v-if="!loading && !artObjects.length" class="empty-list">
+      No results found
+    </div>
+
     <!-- Scroll area containing the grid for art items -->
     <div class="scroll-area">
       <div class="items-grid" :style="{ height: gridHeight }">
@@ -128,5 +133,12 @@ function reload() {
   @media (max-width: 500px) {
     grid-template-columns: repeat(2, minmax(100px, 1fr));
   }
+}
+.empty-list {
+  width: 100%;
+  background-color: #efefef;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 16px;
 }
 </style>

@@ -19,3 +19,11 @@ npm run dev
 ```
 
 4. #### Open http://localhost:3000 in your browser
+
+### Important
+
+If you want to commit or push changes, please set up Git hooks first. To do so, run the command:
+
+```
+npx simple-git-hooks
+```
