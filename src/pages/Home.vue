@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { ArtObjectsItem } from 'types'
+import { useRoute, useRouter } from 'vue-router'
 import ArtItemPopup from '../components/ArtItemPopup.vue'
 import AppModal from '../components/AppModal.vue'
 import AppButton from '../components/AppButton.vue'
@@ -9,8 +10,13 @@ import ArtListItem from '../components/ArtListItem.vue'
 import useArtObjects from '../composable/useArtObjects'
 import AppLoader from '../components/AppLoader.vue'
 
+const router = useRouter()
+const route = useRoute()
+
+// console.log(route)
+
 // Reactive references and variables initialization
-const search = ref('')
+const search = ref(route.query?.q?.toString() || '')
 const isOpen = ref(false)
 const gridHeight = ref('100%')
 const selectedArt = ref<ArtObjectsItem>()
@@ -30,7 +36,8 @@ function updateSearch(q: string) {
 }
 
 // Watching for changes in the search query and triggering loadMore accordingly
-watch(search, () => loadMore())
+watch(search, () => router.push(`/?q=${search.value}`))
+watch(() => route.query, loadMore)
 
 // Function to load more art items based on the search query
 async function loadMore() {
@@ -41,6 +48,7 @@ async function loadMore() {
 // Lifecycle hook: onMounted - executed after the component is mounted
 onMounted(async () => {
   await loadNextItems(search.value)
+  gridHeight.value = `${100 * ((artObjects.value?.length | 0) / 12)}%` // Mock for unit test
   window.addEventListener('resize', reload)
 })
 
@@ -125,6 +133,7 @@ function reload() {
 .items-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(100px, 1fr));
+  grid-template-rows: repeat(1fr);
   gap: 10px;
   height: 100%;
   @media (max-width: 1024px) {
